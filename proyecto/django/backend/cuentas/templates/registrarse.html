@@ -1,6 +1,8 @@
 <!-- HTML DE REGISTRO DE CUENTAS DE USUARIO-->
-<form action="/cuentas/signup/" method="POST">
+<form action="{% url 'usuarios:registrarse' %}" method="POST">
     {% csrf_token %}
-    {{form}}
+    <table>{{form.as_table}}</table>
+    
 <input type="submit" value="Registrarse">
+
 </form>

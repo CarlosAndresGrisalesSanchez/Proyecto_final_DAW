@@ -6,9 +6,10 @@
     <title>Registro</title>
 </head>
 <body>
-    <form action="{% url'cuentas:login'}">
+    <form action="{% url 'usuarios:login' %}" method="post">
         {% csrf_token %}
-        {{form}}
+        <table>{{form.as_table}}</table>
+        
         {% if request.GET.next %}
             <input type="hidden" name="next" value="{{request.GET.next}}">
         {% endif %}

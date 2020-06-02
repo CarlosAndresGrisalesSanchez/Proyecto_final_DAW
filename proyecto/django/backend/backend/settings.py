@@ -25,7 +25,7 @@ SECRET_KEY = 'x*hj)a3@^q#56&6y!_z-sl5-*2c%86co&39m!y$1-dyv!)z@r9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['54.160.107.162',]
+ALLOWED_HOSTS = ['54.84.81.73','ip-172-31-48-105.ec2.internal']
 
 
 # Application definition
@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'videos'
+    'videos',
+    'cuentas',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +76,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+    'default': {#datos de la conexion a la base de datos
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
             'init_command': 'SET default_storage_engine=INNODB',
@@ -111,7 +112,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/dev/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -126,5 +127,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/dev/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_URL ='/imagenes/'
-MEDIA_ROOT= os.path.join(BASE_DIR,'imagenes')
+MEDIA_URL ='/imagenes/'#utilizados para guardar las imagenes y videos en el servidor
+MEDIA_ROOT= os.path.join(BASE_DIR,'imagenes')#utilizados para guardar las imagenes y videos en el servidor

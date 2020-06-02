@@ -6,6 +6,10 @@
     <title>Document</title>
 </head>
 <body>
+    <form action="{% url 'usuarios:logout' %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" value="desconectarse">
+    </form>
     {% if todos_los_videos %}
         {% for video in todos_los_videos %}
         <img src="{{video.imagen.url}}">
