@@ -7,7 +7,7 @@ import {HttpHeaders, HttpClient} from '@angular/common/http';
   providedIn: 'root'
 })
 export class ConexionService {
-  base_url='http://54.84.81.73:8080';
+  base_url='http://18.207.254.214:8080';
   headers = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
   httpOptions = {
     headers: this.headers
@@ -18,7 +18,9 @@ export class ConexionService {
     console.error(error);                                       
     return throwError(error);
   }
+  url_videos:string;
   cogervideos():Observable<any[]>{
-    return this.http.get<any[]>(this.base_url+'/videos/todos')
+    this.url_videos=this.base_url+'/videos/todos1/';
+    return this.http.get<any[]>(this.url_videos,this.httpOptions)
   }
 }

@@ -7,10 +7,12 @@ import {ConexionService}from './conexion.service'
 })
 export class AppComponent {
   title = 'frontend';
-  todos_los_videos:any[]=[];
+  todos_los_videos=[{nombre:'nombre',imagen:'imagen',video:'video'}];
   constructor(private videos_leidos:ConexionService) { }//instaciar al servicio de lista de recetas para optener datos
   coger_videos():void{
-    this.videos_leidos.cogervideos().subscribe(todos_los_videos=>this.todos_los_videos=todos_los_videos)
+    this.videos_leidos.cogervideos().subscribe(data=>{this.todos_los_videos=data},error =>{console.log(error)})
   }
-
+  ngOnInit():void{
+    this.coger_videos();//coger los videos nada mas cargar la pagina
+  }
 }

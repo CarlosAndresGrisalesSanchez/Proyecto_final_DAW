@@ -25,7 +25,22 @@ SECRET_KEY = 'x*hj)a3@^q#56&6y!_z-sl5-*2c%86co&39m!y$1-dyv!)z@r9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['54.84.81.73','ip-172-31-48-105.ec2.internal']
+ALLOWED_HOSTS = ['18.207.254.214','localhost','ip-172-31-74-242.ec2.internal:8080']
+#conexiones
+CORS_ORIGIN_ALLOW_ALL=True
+CORS_ORIGIN_WHITELIST = [
+    'http://18.207.254.214:80',
+    
+    ]
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+
 
 
 # Application definition
@@ -37,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'corsheaders',#conexiones
     'videos',
     'cuentas',
 ]
@@ -49,6 +66,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',#conexiones
+    'django.middleware.common.CommonMiddleware',#conexiones
 ]
 
 ROOT_URLCONF = 'backend.urls'

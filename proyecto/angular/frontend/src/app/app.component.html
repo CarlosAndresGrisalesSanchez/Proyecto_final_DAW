@@ -1,1 +1,5 @@
-{{this.todos_los_videos}}
+<div *ngFor="let video of todos_los_videos">
+  <li>{{video.imagen}}</li>
+  <li>{{video.video}}</li>
+  <li>{{video.nombre}}</li>
+</div>
