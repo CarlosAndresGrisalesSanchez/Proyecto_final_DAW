@@ -8,6 +8,8 @@ import {ConexionService}from './conexion.service'
 export class AppComponent {
   title = 'frontend';
   todos_los_videos=[{nombre:'nombre',imagen:'imagen',video:'video'}];
+  url_base= 'http://18.207.254.214'
+
   constructor(private videos_leidos:ConexionService) { }//instaciar al servicio de lista de recetas para optener datos
   coger_videos():void{
     this.videos_leidos.cogervideos().subscribe(data=>{this.todos_los_videos=data},error =>{console.log(error)})

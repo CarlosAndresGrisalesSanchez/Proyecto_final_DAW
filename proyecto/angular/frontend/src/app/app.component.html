@@ -3,3 +3,42 @@
   <li>{{video.video}}</li>
   <li>{{video.nombre}}</li>
 </div>
+<nav class="navbar navbar-expand-lg  navbar-light bg-light static-top">
+  <div class="container">
+    <a class="navbar-brand" href="{{url_base}}">
+        <img src="{{url_base}}" alt="Logo" class="img-responsive">
+        </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+                                            <ul class="navbar-nav mr-auto  d-flex justify-content-end">
+                </ul>
+                <ul class="navbar-nav navbar-right d-flex justify-content-end">
+                    <li class="nav-item">
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        login
+                      </button>
+                    </li>
+                    
+                </ul>
+    </div>
+    </div>
+</nav>
+<!-- login modal-->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Conectarse</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <app-cuentas-usuario></app-cuentas-usuario>
+     
+    </div>
+  </div>
+</div>
+<!--login modal-->
