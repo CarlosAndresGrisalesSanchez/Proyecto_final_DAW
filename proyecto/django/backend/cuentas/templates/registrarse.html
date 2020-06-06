@@ -1,8 +1,16 @@
-<!-- HTML DE REGISTRO DE CUENTAS DE USUARIO-->
+{% extends 'base.html' %}
+{% block content %}
+<!--REGISTRO DE CUENTAS DE USUARIO-->
 <form action="{% url 'usuarios:registrarse' %}" method="POST">
     {% csrf_token %}
-    <table>{{form.as_table}}</table>
+    <input type="text" id="id_username" name="username" placeholder="nombre usuario">
+    <input type="text" id="id_email" name="email" placeholder="correo electronico">
+    <input type="text" id="id_first_name" name="first_name" placeholder="nombre">
+    <input type="text"id="id_last_name" name="last_name" placeholder="apellidos">
+    <input type="password" required id="id_password1" name="password1" placeholder="contraseña">
+    <input type="password" required id="id_password2" name="password2" placeholder="confirmar contraseña">
     
 <input type="submit" value="Registrarse">
 
 </form>
+{% endblock %}

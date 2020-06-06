@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <form action="{% url 'usuarios:logout' %}" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="desconectarse">
-    </form>
-    {% if todos_los_videos %}
-        {% for video in todos_los_videos %}
-        <img src="{{video.imagen.url}}">
-        {% endfor %}
-    {% else %}
-    {% endif %}
-</body>
-</html>
+{% extends 'base.html'%}
+{% block content %}
+<div class="container">
+    <div class="row">
+        {% if todos_los_videos %}
+            {% for video in todos_los_videos %}               
+                <div class="col-md-3 col-sm-6">
+                    <a href="{% url 'videos:video' video.id%}"><img src="{{video.imagen.url}}" class="img-thumbnail"></a>  
+                </div>                                  
+            {% endfor %}
+        {% else %}
+        {% endif %}
+    </div>
+
+</div>
+    
+{% endblock%}

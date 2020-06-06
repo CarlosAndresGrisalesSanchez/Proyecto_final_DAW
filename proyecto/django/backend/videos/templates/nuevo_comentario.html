@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content%}
 <div class="nuevo-comentario">
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -8,3 +10,4 @@
         <input type="submit" value="Añadir comentario">
     </form>
 </div>
+{% endblock%}

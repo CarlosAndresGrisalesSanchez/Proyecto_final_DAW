@@ -1,0 +1,14 @@
+{% extends 'base.html'%}
+{% block content %}
+ {%if error %}
+ <h1>{{error}}</h1>
+ {%endif%}
+<form action="{%url 'usuarios:modificar_p_u'%}" method="POST">
+    {%csrf_token%}
+    <input type="password" name="password" id="password"placeholder="contraseña actual"required>
+    <input type="password"name="password1" id="password1"placeholder="nueva contraseña"required>
+    <input type="password"name="password2" id="password2 laceholder="confirmar nueva contraseña" required>
+    <input type="submit" class="button" value="confirmar">
+    <a role="button" class="btn btn-danger" href="{%url 'usuarios:perfil'%}">cancelar</a>
+</form>
+{%endblock%}

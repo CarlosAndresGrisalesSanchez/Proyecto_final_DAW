@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import os
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,8 +26,8 @@ SECRET_KEY = 'x*hj)a3@^q#56&6y!_z-sl5-*2c%86co&39m!y$1-dyv!)z@r9'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['18.207.254.214','localhost','ip-172-31-74-242.ec2.internal:8080']
-#conexiones
+ALLOWED_HOSTS = ['18.207.254.214','localhost','ip-172-31-74-242.ec2.internal']
+#conexiones####################### proximamente
 CORS_ORIGIN_ALLOW_ALL=True
 CORS_ORIGIN_WHITELIST = [
     'http://18.207.254.214:80',
@@ -40,9 +41,21 @@ CORS_ALLOW_METHODS = [
     'POST',
     'PUT',
 ]
+REST_USE_JWT = True
 
-
-
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+}
+#############################################
+#permitir ejecucion de vidos
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 # Application definition
 
 INSTALLED_APPS = [
@@ -53,9 +66,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',#token csrf para conexion externa
     'corsheaders',#conexiones
     'videos',
     'cuentas',
+    'backend',
 ]
 
 MIDDLEWARE = [
