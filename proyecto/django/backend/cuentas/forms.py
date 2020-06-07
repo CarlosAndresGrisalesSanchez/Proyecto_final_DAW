@@ -13,4 +13,8 @@ class modPass(UserCreationForm):
         model = User
         fields=("password1","password2","password")
 
+class modifi_user(UserCreationForm):
+    class Meta:
+        model = User
+        fields=("email","first_name","last_name")
    

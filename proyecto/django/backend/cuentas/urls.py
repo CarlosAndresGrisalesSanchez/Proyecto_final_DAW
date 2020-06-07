@@ -15,10 +15,12 @@ urlpatterns = [
  #   path(r'autenticar/',ObtainAuthToken.as_view()),
    
     path('signup/',views.registrarse,name='registrarse'),#vista que se cargara para iniciar el registro de un nuevo usuario
-    path('login/',views.login_u,name='login'),
-    path('logout/',views.logout_u,name='logout'),
-    path('perfil/',views.mirar_perfil,name="perfil"),
-    path('modificar_p/',views.modificar_p_u,name='modificar_p_u'),
-    path('plantilla_p/',views.plantilla_contra_n,name='plantilla_p')
+    path('login/',views.login_u,name='login'),#vista loguear usuario
+    path('logout/',views.logout_u,name='logout'),#desloguear usuario
+    path('perfil/',views.mirar_perfil,name="perfil"),#vista perfil
+    path('modificar_p/',views.modificar_p_u,name='modificar_p_u'),#cambiar contraseña
+    path('plantilla_p/',views.plantilla_contra_n,name='plantilla_p'),#plantilla cambiar contraseña
+    path('plantilla_mod_u/',views.plantilla_mod_u,name='plantilla_mod_u'),#plnatilla cambiar datos de usuario
+    path('cambios_perfil/',views.cambios_perfil,name="hacer_cambios_perfil"),
 
 ]

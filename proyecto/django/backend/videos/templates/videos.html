@@ -9,30 +9,41 @@
 </head>
 <body>
 <!--Navbar-->
-    <nav class="navbar navbar-expand-lg  navbar-light bg-light static-top">
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark static-top">
         <div class="container">
           <a class="navbar-brand" href="/">
-              <img src="{{url_base}}" alt="Logo" class="img-responsive">
+              <img src="/imagenes/logo.png" alt="Logo" class="img-responsive">
               </a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
           <div class="collapse navbar-collapse" id="navbarResponsive">
-                                                  <ul class="navbar-nav mr-auto  d-flex justify-content-end">
-                      </ul>
+                    <ul class="navbar-nav mr-auto  d-flex justify-content-end">
+                        <form class="form-inline" method="POST" action="{% url 'videos:buscar_serie'%}">
+                            {%csrf_token%}
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search" name="serie" aria-label="Search">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
+                        </form>
+                    </ul>
                       <ul class="navbar-nav navbar-right d-flex justify-content-end">
-                          <li class="nav-item">
-                           <a class=" btn btn-primary" role="button" href="{% url 'usuarios:login' %}">Conectarse</a>
+                          {% if user.is_authenticated  %}
+                          <li>
+                            <a class=" btn btn-secondary" role="button" href="{% url 'usuarios:perfil' %}">Perfil</a>
                           </li>
-                          <li class="nav-item">
-                            <a href="{% url 'usuarios:registrarse' %}" class="btn btn-primary " role="button">Registrarse</a> 
-                          </li>
-                          {% if user.is_authenticated %}
                           <li>
                             <form action="{% url 'usuarios:logout' %}" method="POST">
                             {% csrf_token %}
                             <input class=" btn btn-danger"type="submit" value="desconectarse">
-                          </form></li>
+                          </form>
+                            </li>
+                            
+                          {% else %}
+                          <li class="nav-item">
+                            <a class=" btn btn-primary" role="button" href="{% url 'usuarios:login' %}">Conectarse</a>
+                           </li>
+                           <li class="nav-item">
+                             <a href="{% url 'usuarios:registrarse' %}" class="btn btn-primary " role="button">Registrarse</a> 
+                           </li>
                           {%endif%}
                       </ul>
           </div>
@@ -44,24 +55,38 @@
 
 {% block content %}
 <!--video-->
+<div class="container">
     <div class="embed-responsive embed-responsive-16by9">
         <iframe class="embed-responsive-item" src="{{video.video.url}}" allowfullscreen></iframe>
     </div>
+</div>
+    
 <!--comentarios-->
-    <div class="container">
+    <div class="container text-center">
         <h1>Comentarios</h1>    
         {% if comentarios %}
             {% for comentario in comentarios%}
             {%ifequal comentario.autor_id user.id%}
-            <form action="{% url 'videos:modificar_comentario' comentario.id%}" method="POST">
-                {% csrf_token%}
-                <input type="text"name="texto" id="texto" value="{{comentario.texto}}">               
-                <input type="hidden" name="next" value="{%url 'videos:video' video.id%}">
-                <input type="submit" value="Guardar cambios">
-            </form>
+            <div class="row  justify-content-center" id="comentario{{comentario.id}}">
+                <p class="col-12" >{{comentario.texto}}</p>
+                <p class="col-12">{{comentario.fecha}}</p>
+                <button id="modificar_{{comentario.id}}" onclick="mostrar_form({{comentario.id}})" class="btn btn-secondary">Modificar</button>
+            </div>
+            <div class="row justify-content-center" id="form{{comentario.id}}" style='display:none'>
+                <div class="form-group">
+                    <form action="{% url 'videos:modificar_comentario' comentario.id%}" class="col-12"method="POST">
+                        {% csrf_token%}
+                        <textarea type="text"name="texto"class="form-control form-control-lg"id="texto" placeholder="{{comentario.texto}}"value="{{comentario.texto}}"></textarea>               
+                        <input type="hidden" name="next" value="{%url 'videos:video' video.id%}">
+                        <input type="submit" class="btn btn-primary" value="Guardar cambios">
+                    </form>
+                    <button class="btn btn-danger" onclick="ocultar_form({{comentario.id}})">Cancelar</button>
+                </div>
+            </div>           
             {% else %}
-                <div class="row">
-                    <p>{{comentario.texto}}</p>
+                <div class="row justify-content-center">
+                    <p class="col-12">{{comentario.texto}}</p><br>
+                    <p class="col-12">{{comentario.fecha}}</p>
                 </div>
             {%endifequal%}
             {% endfor%}    
@@ -69,18 +94,50 @@
     </div>
 <!--añadir comentario-->  
     {% if user.is_authenticated %}
-        <div class="container" id="añadir_comentario">
-            <form action="{%url 'videos:nuevo_comentario'%}" method="POST">
-                {% csrf_token %}
-                <input type="textarea"name="texto" id="texto" placeholder="comentario">
-                <input type="hidden"name="video"id="id_video" value="{{video.id}}">
-                <input type="hidden" name="next" value="{%url 'videos:video' video.id%}">
-                <input type="submit" value="Enviar">
-            </form>
+
+        <div class="container justify-content-center" id="añadir_comentario">
+            <div class="row">
+                <div class="form-group">
+                    <form action="{%url 'videos:nuevo_comentario'%}" method="POST">
+                        {% csrf_token %}
+                        <input type="text"name="texto" id="texto" placeholder="comentario">
+                        <input type="hidden" class="form-control form-control-lg" name="video"id="id_video" value="{{video.id}}">
+                        <input type="hidden" name="next" value="{%url 'videos:video' video.id%}">
+                        <input type="submit" value="Enviar" class="btn btn-primary">
+                    </form>
+                </div>
+                
+            </div>
+            <button class="btn btn-danger"id="nuevo_comentario">Añadir</button>
         </div>         
     {% endif%}
     {% endblock %}
 <!--Scripts-->
+<script>
+    function mostrar_form(comentario_id){
+        var formulario=document.getElementById('form'+comentario_id+'');
+        var comentario=document.getElementById('comentario'+comentario_id+'');
+        formulario.style.display='flex';
+        comentario.style.display='none'
+     }
+    function ocultar_form(comentario_id){
+        var formulario=document.getElementById('form'+comentario_id+'');
+        var comentario=document.getElementById('comentario'+comentario_id+'');
+        formulario.style.display='none'
+        comentario.style.display='flex'
+    }
+    function añadir_comentario(){
+        var div=document.getElementById('añadir_comentario')
+        div.style.display='flex'
+        var boton=document.getElementById('nuevo_comentario')
+        boton.
+    }
+    function cancelar_comentario(){
+        var div=document.getElementById('añadir_comentario')
+        div.style.display='none'
+        
+    }
+</script>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>

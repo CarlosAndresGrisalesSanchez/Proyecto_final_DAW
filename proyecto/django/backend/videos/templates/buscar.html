@@ -1,0 +1,27 @@
+{%extends 'base.html'%}
+{%block content%}
+    {%if series%}<!--si hay series pintar las imagenes-->
+    <div class="container">
+        <div class="row">
+        {%for serie in series%}
+            {%if forloop.counter|divisibleby:5 %}
+                </div>
+                <div class="row">
+            {% endif %}               
+                <div class="card" style="width: 18rem;">
+                    <a href="{% url 'videos:videos_serie' serie.id%}">
+                    <img class="card-img-top" src="{{serie.ImagenPortada.url}}" alt="Card image cap">
+                    </a>    
+                    <div class="card-body">
+                      <h5 class="card-title">{{serie.nombre}}</h5>
+                      
+                    </div>
+                  </div>              
+            {% if forloop.last %} 
+                </div> 
+            {%endif%}                      
+        {%endfor%}
+    </div>
+    {%endif%}
+
+{%endblock%}

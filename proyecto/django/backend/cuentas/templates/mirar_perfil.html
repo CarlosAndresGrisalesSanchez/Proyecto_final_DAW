@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{%if error%}
+{{error}}
+{%endif%}
     <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -11,8 +13,8 @@
                     <div class="row">Apellido: {{usuario.last_name}}</div>
                     <div class="row">Correo: {{usuario.email}}</div>
                     <div class="row text-center">
-                    <a href="" class="btn btn-primary mb-1">Modificar perfil</a>
-                    <a href="{%url 'usuarios:plantilla_p'%}" class="btn btn-secondary mb-1">Modificar contraseña</a>
+                    <a href="{%url 'usuarios:plantilla_mod_u' %}" class="btn btn-primary mb-1">Modificar perfil</a>
+                    <a href="{%url 'usuarios:plantilla_p' %}" class="btn btn-secondary mb-1">Modificar contraseña</a>
                     </div>
                 </div>
             </div>

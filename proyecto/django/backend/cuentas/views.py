@@ -2,11 +2,12 @@ from django.shortcuts import render,redirect
 
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm #necesario para la creacion de usuarios y para conectarse
 from django.contrib.auth import login,logout #logear usuarios y deslogear
-from .forms import NUser,modPass
+from .forms import NUser,modPass,modifi_user#forms personalizados
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import check_password,make_password,is_password_usable
 # Create your views here.
+#registrarse
 def registrarse(request):
     if request.method == 'POST':#si alguien ha mandado los datos ya rellenados del post ira aqui para crear el nuevo usuario
         formulario= NUser(request.POST)#guardaremos el formulario enviado en una variable
@@ -17,12 +18,12 @@ def registrarse(request):
     else:
         formulario= NUser()
         return render(request,'registrarse.html',{'form': formulario})#redirigir a la pagina de registro de usuarios
-######################################################
-def login_u(request):#iniciar sesion de usuario
+#iniciar sesion de usuario
+def login_u(request):
     if request.method == 'POST':
-        formularioAu=AuthenticationForm(data=request.POST)
-        if formularioAu.is_valid():
-            usuario=formularioAu.get_user()
+        formularioAu=AuthenticationForm(data=request.POST)#rellenar formulario x defecto de autenticacion
+        if formularioAu.is_valid():#mirar si es valido
+            usuario=formularioAu.get_user()#coger el usuario del formulario
             if usuario is not None:
                 login(request, usuario)#iniciar sesion del usuario
                         
@@ -39,9 +40,12 @@ def logout_u(request):
         logout(request)
     return  redirect('/')
 @login_required()
+#mirar perfil de usuario
 def mirar_perfil(request):
     usuario_m=User.objects.get(pk=request.user.id)
     return render(request,'mirar_perfil.html',{'usuario':usuario_m})
+######################################################
+#cambiar contraseña pero no funciona, la guarda mal
 @login_required()
 def modificar_p_u(request):
      if request.method == 'POST':
@@ -50,13 +54,15 @@ def modificar_p_u(request):
             usuario_mod=User.objects.get(pk=request.user.id)
             if check_password(request.POST.get('password'),getattr(usuario_mod,'password')):
                 if is_password_usable(request.POST.get('password')):
-                    n_contraseña=make_password(request.POST.get('password1'),hasher='pbkdf2_sha256')
-                    if usuario_mod.check_password(n_contraseña):
+                    n_contraseña=make_password(request.POST.get('password1'))
+                    ########## no logro cambiar bien la contraseña~#################
+                    if is_password_usable(n_contraseña):
+                        
                         usuario_mod.set_password(n_contraseña)
                         usuario_mod.save()
-            
-                    #iniciar sesion del usuario creado
-                    return render(request,'mirar_perfil.html',{'usuario':usuario_mod})
+                        return render(request,'mirar_perfil.html',{'usuario':usuario_mod})
+                    else:
+                        return render(request,'mod_pass.html',{'usuario':usuario_mod,'error':'contraseña invalida'})
                 else:
                     return render(request,'mod_pass.html',{'usuario':usuario_mod,'error':'La contraseña nueva no es válida'})
             else:
@@ -67,3 +73,15 @@ def modificar_p_u(request):
 @login_required()
 def plantilla_contra_n(request):
     return render(request,'mod_pass.html',{'usuario':request.user})
+##########################################################################
+#modificar perfil
+@login_required()
+def plantilla_mod_u(request):
+    return render(request,'mod_perfil.html',{'usuario':request.user})
+@login_required()
+def cambios_perfil(request):
+        if request.method == 'POST':
+            usuario_modificado=User.objects.filter(pk=request.user.id).update(last_name=request.POST.get('last_name'),first_name=request.POST.get('first_name'),email=request.POST.get('email'))
+            return render(request,'mirar_perfil.html',{'usuario':request.user})         
+        else:
+            return render(request,'mod_perfil.html',{'usuario':request.user})

@@ -1,16 +1,38 @@
 {% extends 'base.html'%}
 {% block content %}
+{%if noEncontrados%}
 <div class="container">
-    <div class="row">
+    <div class="row  text-danger" >
+        <h1>{{noEncontrados}}</h1>
+    </div>
+</div>  
+{%endif%}
+<div class="container">
+    <div class="row  justify-content-center">
         {% if todos_los_videos %}
-            {% for video in todos_los_videos %}               
-                <div class="col-md-3 col-sm-6">
-                    <a href="{% url 'videos:video' video.id%}"><img src="{{video.imagen.url}}" class="img-thumbnail"></a>  
-                </div>                                  
+            {% for video in todos_los_videos %}
+                {%if forloop.counter|divisibleby:4 %}
+                </div>
+                <div class="row  justify-content-center">
+
+                {% endif %}
+                <div class="card" style="width: 18rem;">
+                    <a href="{% url 'videos:video' video.id%}">
+                    <img class="card-img-top" src="{{video.imagen.url}}" alt="Card image cap">
+                    </a>    
+                    <div class="card-body">
+                      <h5 class="card-title">{{video.nombre}}</h5>
+                      
+                    </div>
+                  </div>               
+                
+                {% if forloop.last %} 
+                </div> 
+                {%endif%}                           
             {% endfor %}
         {% else %}
         {% endif %}
-    </div>
+    
 
 </div>
     

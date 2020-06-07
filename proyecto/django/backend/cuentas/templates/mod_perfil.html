@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header text-center"> <h1><i class="fa fa-user"></i>Hola {{usuario.username}}</h1> </div>
+                    
+                    <form action="{%url 'usuarios:hacer_cambios_perfil' %}"method="post">
+                        {%csrf_token%}
+                        <input type="text" name="email"id="email" value="{{usuario.email}}" placeholder="{{usuario.email}}">
+                        <input type="text" name="first_name" id="first_name"value="{{usuario.first_name}}" placeholder="{{usuario.first_name}}">
+                        <input type="text" name="last_name"id="last_name"value="{{usuario.last_name}}" placeholder="{{usuario.last_name}}">
+                        
+                            <input type="submit" class="btn btn-primary mb-1" value="guardar cambios">
+                            <a href="{%url 'usuarios:perfil'%}" class="btn btn-danger mb-1">cancelar</a>                       
+                        
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{%endblock%}
