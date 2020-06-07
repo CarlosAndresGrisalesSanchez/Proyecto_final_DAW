@@ -1,5 +1,6 @@
 {% extends 'base.html'%}
 {%block content %}
+<div class="container text-white mt-4">
     <form action="{% url 'usuarios:login' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
@@ -18,4 +19,5 @@
         {% endif %}
         <input type="submit" class="btn btn-primary" value="Entrar">
     </form>
+</div>
 {% endblock %}

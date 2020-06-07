@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <!--REGISTRO DE CUENTAS DE USUARIO-->
+<div class="container text-white">
 <form action="{% url 'usuarios:registrarse' %}" method="POST">
     {% csrf_token %}
     <div class="form-group">
@@ -30,6 +31,7 @@
 <input type="submit" class="btn btn-primary" value="Registrarse">
 
 </form>
+</div>
 {% endblock %}
 <form>
     
